@@ -1,0 +1,22 @@
+{% extends 'masters.html' %}
+{% block body %}
+<section id="form" style="margin-left: 30%;"><!--form-->
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-4 col-sm-offset-1">
+				<div class="signup-form"><!--Signup form-->
+					<h2>Signup</h2>
+					<form method="post">
+						{% csrf_token %}
+						{% for field in form %}
+							{{ field.errors }}
+							<p>{{ field }}</p>
+						{% endfor %}
+						<button class="btn btn-default" type="submit">Signup</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}

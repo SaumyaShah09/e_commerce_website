@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path,include
 from django.conf import *
 from django.conf.urls.static import *
-
+from django.contrib.auth import views as auth_views
 
 from .import views
 urlpatterns = [
@@ -27,4 +27,17 @@ urlpatterns = [
     path('',views.Index,name='index'),
     path('signup/',views.signup,name='signup'),
     path('account/',include('django.contrib.auth.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+path(
+        "account/password_reset/",
+        auth_views.PasswordResetView.as_view(
+            template_name="registration/password_reset_form.html"  # Force Django to use your template
+        ),
+        name="password_reset"),
+        path('cart/add/<int:id>/', views.cart_add, name='cart_add'),
+        path('cart/item_clear/<int:id>/', views.item_clear, name='item_clear'),
+        path('cart/item_increment/<int:id>/',views.item_increment, name='item_increment'),
+        path('cart/item_decrement/<int:id>/',views.item_decrement, name='item_decrement'),
+        path('cart/cart_clear/', views.cart_clear, name='cart_clear'),
+        path('cart/cart-detail/', views.cart_detail, name='cart_detail'),
+
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

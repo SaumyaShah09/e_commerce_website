@@ -10,9 +10,12 @@
 						{% csrf_token %}
 						{% for field in form %}
 							{{ field.errors }}
+                            <label>{{ field.label_tag }}</label>
 							<p>{{ field }}</p>
 						{% endfor %}
 						<button class="btn btn-default" type="submit">Signup</button>
+                        <br>
+                    <span style="margin-left:80px;">Already Have An Account</span>&nbsp;<a href="{% url 'login' %}">Login</a>
 					</form>
 				</div>
 			</div>

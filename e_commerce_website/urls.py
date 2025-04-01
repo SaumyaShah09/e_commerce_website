@@ -25,8 +25,14 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('master/',views.Master,name = 'masters'),
     path('',views.Index,name='index'),
+    path('product/',views.Product_page,name = 'product'),
+    path('product/<int:id>/',views.Product_detail,name = 'product_detail'),
     path('signup/',views.signup,name='signup'),
     path('account/',include('django.contrib.auth.urls')),
+    path('contact_us/',views.Conctact_Page,name='contact_page'),
+    path('checkout/',views.Checkout,name='checkout'),
+    path('order/',views.Your_order,name='order'),
+    path('search/',views.Search,name='search'),
 path(
         "account/password_reset/",
         auth_views.PasswordResetView.as_view(
@@ -39,5 +45,7 @@ path(
         path('cart/item_decrement/<int:id>/',views.item_decrement, name='item_decrement'),
         path('cart/cart_clear/', views.cart_clear, name='cart_clear'),
         path('cart/cart-detail/', views.cart_detail, name='cart_detail'),
+
+        path('contact_us/',views.Conctact_Page,name="contact_page")
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

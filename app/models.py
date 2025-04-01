@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import User
 from django.contrib.auth.models import User
 from django import forms
+import datetime
 
 # Create your models here.
 class Category(models.Model):
@@ -19,13 +20,21 @@ class Subcategory(models.Model):
     def __str__(self):
         return self.name
 
+class Brand(models.Model):
+    name=models.CharField(max_length=200)
 
+    def __str__(self):
+        return self.name
 class Product(models.Model):
+    availibility = (('In Stock','In Stock'),('Out of Stock','Out of Stock'))
+
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=False,default='')
     sub_category = models.ForeignKey(Subcategory, on_delete=models.CASCADE,null=False,default='')
+    brand = models.ForeignKey(Brand,on_delete=models.CASCADE,null=True)
     image = models.ImageField(upload_to='ecommerce/pimg')
     name = models.CharField(max_length=150)
     price = models.IntegerField()
+    availibility = models.CharField(max_length=100, choices=availibility, null=True)
     date = models.DateField(auto_now_add=True)
 
     def __str__(self):
@@ -62,3 +71,28 @@ class UserCreateForm(UserCreationForm):
         if User.objects.filter(email=self.cleaned_data['email']).exists():
             raise forms.ValidationError(self.fields['email'].error_messages['exist'])  # Fixed error message
         return self.cleaned_data['email']
+
+class Contact_us(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField(max_length=100)
+    subject = models.CharField(max_length=100)
+    message = models.TextField()
+
+    def __str__(self):
+        return self.name
+class Order(models.Model):
+    image = models.ImageField(upload_to='ecommerce/order/image')
+    product = models.CharField(max_length=1000,default='')
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    price = models.IntegerField()
+    quantity = models.CharField(max_length=5)
+    total_price = models.FloatField()
+    address = models.TextField()
+    phone = models.CharField(max_length=10)
+    pincode = models.CharField(max_length=10)
+
+    date = models.DateField(default=datetime.datetime.today)
+
+    def __str__(self):
+        return self.product
+
